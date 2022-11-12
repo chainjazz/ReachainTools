@@ -1,6 +1,6 @@
 [submodule "ReachainJS"]
 	path = ReachainJS
-	url = https://chainjazz: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@github.com/chainjazz/ReachainJS.git
+	url = https://github.com/chainjazz/ReachainJS.git
 [submodule "ReachainScripts"]
 	path = ReachainScripts
-	url = https://chainjazz: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@github.com/chainjazz/Reachainjazz.git
+	url = https://github.com/chainjazz/Reachainjazz.git

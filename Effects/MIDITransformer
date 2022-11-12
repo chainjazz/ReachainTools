@@ -1,0 +1,41 @@
+desc:Peak Reduction Calculator
+
+// BY RASTKO
+// TODO
+// [ ] Create test scripts to maximize performance (minimize CPU cycles)
+//  - especially concnetrate on the @block et al.
+// Kind of cool these script effects right? Back to basics (the first
+// thing that sparked my interest in programming was a crude DSP for
+// Winamp)
+// [ ] NOTE this are not the same as ReaScript (for Actions)
+// but is probably similar in language support
+
+
+slider1:reference_db=0<-24,-18,1>Reference Power
+slider2:reported_peak=0<-8,0,0.1>Reported Peak
+slider3:reported_loudness=0<-24,0,0.1>Reported Loudness
+slider4:peak_normalize=0<-22,0,1>Original Peak
+in_pin:left input
+in_pin:right input
+out_pin:left output
+out_pin:right output
+
+@init
+// -18+6 -17.1 - -1.4   -  -12  -1.4 = -15.6 - -12 - -1.4 = -3.6 - -1.4 = -2.2
+offset_loudness = (reference_db - reported_loudness); // 17.1
+peak_normalize = -6 + offset_loudness + abs(reported_peak); // 0.9
+last_gain=10^(peak_normalize/20);
+
+@slider
+offset_loudness = (reference_db - reported_loudness); // 17.1
+peak_normalize = -6 + offset_loudness + abs(reported_peak); // 0.9
+next_gain=10^(peak_normalize/20);
+
+@block
+d_gain = (next_gain - last_gain)/samplesblock;
+
+@sample
+spl0 *= last_gain;
+spl1 *= last_gain;
+last_gain += d_gain;
+
